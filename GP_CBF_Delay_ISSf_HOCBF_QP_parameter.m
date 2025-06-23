@@ -1,0 +1,6 @@
+function [H,f,A,b] = GP_CBF_Delay_ISSf_HOCBF_QP_parameter(x,u_nom, ...
+	mu,h,epsilon,Model_Parameter,HOCBF_Parameter)
+[H,f,A,b] = GP_CBF_Delay_HOCBF_QP_parameter(x,u_nom, ...
+	mu,h,Model_Parameter,HOCBF_Parameter);
+b = b - A * A' / (4 * epsilon);
+end
