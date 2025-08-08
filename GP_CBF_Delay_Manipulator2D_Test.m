@@ -1,5 +1,8 @@
-function GP_CBF_Delay_TestFunc(do_Consider_GPError,do_Consider_Delay, ...
-	SaveFolderName,SaveFileName)
+% function GP_CBF_Delay_Manipulator2D_TestFunc(do_Consider_GPError,do_Consider_Delay, ...
+% 	SaveFolderName,SaveFileName)
+%% GP_CBF_Delay_Manipulator2D_Test
+do_Consider_GPError = true;
+do_Consider_Delay = true;
 %%
 t_start = 0;
 t_end = 20;     % time
@@ -11,12 +14,18 @@ q0 = [0; 0];
 q0_dot = [0; 0];
 x0 = [q0; q0_dot]; % x=[q;q_dot] q=[-1;1]; q_dot=[1;0]
 %% Euler-Lagrange form: M*q_ddot + C*q_dot + G = u
-M = 1 * eye(q_dim);
-C = zeros(q_dim);
-G = zeros(q_dim, 1);
-Model_Parameter.M = M;
-Model_Parameter.C = C;
-Model_Parameter.G = G;
+% M = 1 * eye(q_dim);
+% C = zeros(q_dim);
+% G = zeros(q_dim, 1);
+L1 = 0.75;
+L2 = 0.75;
+m1 = 1;
+m2 = 1;
+% Model_Parameter = GP_CBF_Delay_Manipulator2D_get_Model_Parameter( ...
+% 	x0,L1,L2,m1,m2);
+% Model_Parameter.M = M;
+% Model_Parameter.C = C;
+% Model_Parameter.G = G;
 %% PID controller gains
 Kp = 20 * eye(q_dim);
 Kd = 15 * eye(q_dim);
@@ -79,6 +88,8 @@ fprintf([SaveFileName,': \t']);
 for t_Nr = 1:numel(t_set)
 	x = x_set(:,t_Nr);
 	t = t_set(t_Nr);
+	Model_Parameter = GP_CBF_Delay_Manipulator2D_get_Model_Parameter( ...
+		x,L1,L2,m1,m2);
 	u_nom = GP_CBF_Delay_NominalController( ...
 		t,x,Model_Parameter,PD_Controller_Parameter);
 
@@ -118,9 +129,9 @@ for t_Nr = 1:numel(t_set)
 end
 fprintf('#\n');
 %%
-if ~exist(SaveFolderName, 'dir')
-	mkdir(SaveFolderName);
-end
-save([SaveFolderName,'/',SaveFileName,'.mat'], ...
-	't_set','x_set','u_set','mu_set','delta_h','eta_GP_set','eta_Delay_set');
-end
+% if ~exist(SaveFolderName, 'dir')
+% 	mkdir(SaveFolderName);
+% end
+% save([SaveFolderName,'/',SaveFileName,'.mat'], ...
+% 	't_set','x_set','u_set','mu_set','delta_h','eta_GP_set','eta_Delay_set');
+% end

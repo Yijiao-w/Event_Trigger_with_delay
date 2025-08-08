@@ -12,8 +12,9 @@ alpha_1 = HOCBF_Parameter.alpha_1;
 %% Constraint
 inv_M = inv(M);
 h0 = h;
-dh0dt = - 2 * q' * dq;
-h1 = dh0dt + alpha_0 * h0;
+% dh0dt = - 2 * q' * dq;
+% h1 = dh0dt + alpha_0 * h0;
+h1 = GP_CBF_Delay_HOCBF_h1(h0,x,HOCBF_Parameter);
 b = - 2 * dq' * (alpha_0 * q + dq) + 2 * q' * inv_M * (C * dq + G - mu) + ...
 	alpha_1 * h1;
 A = 2 * q' * inv_M;

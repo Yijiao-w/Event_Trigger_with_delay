@@ -1,4 +1,4 @@
-function [mu,GP] = GP_CBF_Delay_Previous_Prediction_Output( ...
+function [mu,sigma,GP] = GP_CBF_Delay_Previous_Prediction_Output( ...
 	x_GP,GP,do_GP_update)
 SigmaN = GP.SigmaN;
 y_dim = GP.y_dim;
@@ -10,6 +10,6 @@ if do_GP_update == true
 	end
 	GP.addPoint(x_GP,y_GP);
 end
-mu = GP.predict(x_GP);
+[mu,sigma] = GP.predict(x_GP);
 
 end
